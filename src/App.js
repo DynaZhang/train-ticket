@@ -1,24 +1,25 @@
-import logo from './logo.svg';
+import React, { useCallback } from "react";
+import {BrowserRouter as Router,Route} from 'react-router-dom';
+import HomePage from './views/home';
 import './App.css';
+import HeaderComponent from "./components/Header";
+import store from "./store";
+import {Provider} from "react-redux";
+
 
 function App() {
+  const handleBack = useCallback(() => {
+    window.history.back()
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <HeaderComponent title={"首页"} onBack={handleBack}/>
+        <Router>
+          <Route exact path={'/'} component={HomePage} />
+        </Router>
+      </div>
+    </Provider>
   );
 }
 
