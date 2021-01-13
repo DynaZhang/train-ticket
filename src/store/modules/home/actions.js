@@ -78,12 +78,13 @@ export function hideCitySelector(value) {
 
 export function setSelectedCity(value) {
   return (dispatch, getState) => {
-    const {currentSelectingLeftCity} = getState()
+    const {currentSelectingLeftCity} = getState().home
     if (currentSelectingLeftCity) {
       dispatch(setFrom(value))
     } else {
       dispatch(setTo(value))
     }
+    dispatch(hideCitySelector())
   }
 }
 
@@ -117,8 +118,27 @@ export function setDepartDate(value) {
 
 export function exchangeFromTo() {
   return (dispatch, getState) => {
-    const {from, to} = getState()
+    const {from, to} = getState().home
     dispatch(setFrom(to))
     dispatch(setTo(from))
+  }
+}
+
+export function fetchCityData() {
+  return (dispatch, getState) => {
+    const {isLoadingCityData} = getState().home
+    if (isLoadingCityData) {
+      return
+    }
+    dispatch(setIsLoadingCityData(true))
+    fetch('http://localhost:5000/rest/cities?_' + Date.now()).then(response => {
+      return response.json()
+    }).then(cityData => {
+      console.log(cityData.data.cityList)
+      dispatch(setCityData(cityData.data.cityList))
+      dispatch(setIsLoadingCityData(false))
+    }).catch(() => {
+      dispatch(setIsLoadingCityData(false))
+    })
   }
 }
