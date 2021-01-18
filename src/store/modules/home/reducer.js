@@ -17,7 +17,7 @@ const defaultStore = {
   cityData: null,
   isLoadingCityData: false,
   isDateSelectorVisible: false,
-  departDate: null,
+  departDate: 0,
   highSpeed: false
 }
 

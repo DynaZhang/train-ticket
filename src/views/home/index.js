@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import './style.styl';
@@ -7,7 +7,7 @@ import {
   hideCitySelector,
   showCitySelector,
   fetchCityData,
-  setSelectedCity
+  setSelectedCity, setDepartDate
 } from '../../store/modules/home/actions';
 
 import DepartDateComponent from "./DepartDate";
@@ -17,14 +17,14 @@ import SubmitComponent from "./Submit";
 import CitySelectorComponent from "../../components/CitySelector";
 
 function HomePage(props) {
-  const {from, to, isCitySelectorVisible, cityData, isLoadingCityData, dispatch} = props
+  const {from, to, isCitySelectorVisible, cityData, isLoadingCityData, departDate, dispatch} = props
 
   const journeyCbs = useMemo(() => {
     return bindActionCreators({
       exchangeFromTo,
       showCitySelector
     }, dispatch)
-  }, [])
+  }, [dispatch])
 
   const citySelectorCbs = useMemo(() => {
     return bindActionCreators({
@@ -32,11 +32,11 @@ function HomePage(props) {
       fetchCityData,
       onSelect: setSelectedCity
     }, dispatch)
-  }, [])
+  }, [dispatch])
 
   return (
     <div className={"home-wrapper"}>
-      <DepartDateComponent />
+      <DepartDateComponent time={departDate} changeDate={(val) => dispatch(setDepartDate(val))}/>
       <HighSpeedComponent />
       <JourneyComponent from={from} to={to} {...journeyCbs}/>
       <SubmitComponent />
