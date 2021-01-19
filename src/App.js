@@ -8,15 +8,9 @@ import store from "./store";
 
 
 function App() {
-  const handleBack = useCallback(() => {
-    window.history.back()
-  }, [])
   return (
     <Provider store={store}>
       <div className="App">
-        <div className="header-wrapper">
-          <HeaderComponent title={"首页"} onBack={handleBack}/>
-        </div>
         <div className={"container-wrapper"}>
           <Router>
             <Route exact path={'/'} component={HomePage} />

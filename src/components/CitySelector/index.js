@@ -98,7 +98,7 @@ function Suggest(props) {
         setResult(res)
       }
     })
-  }, [searchKey])
+  }, [searchKey,result])
   const fallBackResult = useMemo(() => {
     console.log(result)
     if (result.length === 0) {
@@ -161,7 +161,7 @@ function CitySelectorComponent(props) {
       return
     }
     fetchCityData()
-  }, [show])
+  }, [show, cityData, fetchCityData, isLoading])
 
   return (
     <div className={citySelectorClass}>

@@ -1,12 +1,3 @@
-// from: '北京',
-// to: '上海',
-// isCitySelectorVisible: false,
-// currentSelectingLeftCity: false,
-// cityData: null,
-// isLoadingCityData: false,
-// isDateSelectorVisible: false,
-// highSpeed: false
-
 import {
   ACTION_SET_CITY_DATA,
   ACTION_SET_CURRENT_SELECTING_LEFT_CITY, ACTION_SET_DEPART_DATE,
@@ -46,9 +37,9 @@ export function setCityData(value) {
   }
 }
 
-export function setHighSpeed(value) {
+export function setHighSpeed() {
   return (dispatch, getState) => {
-    const {highSpeed} = getState()
+    const {highSpeed} = getState().home
     dispatch({
       type: ACTION_SET_HIGH_SPEED,
       payload: !highSpeed
@@ -90,7 +81,7 @@ export function setSelectedCity(value) {
 
 export function showDateSelector() {
   return (dispatch, getState) => {
-    const {departDate} = getState()
+    const {departDate} = getState().home
     dispatch({
       type: ACTION_SET_IS_DATE_SELECTOR_VISIBLE,
       payload: true
