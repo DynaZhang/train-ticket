@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect } from 'react'
+import React, {useCallback, useEffect, useMemo} from 'react'
 import {connect} from 'react-redux'
+import {bindActionCreators} from "redux";
 import URI from 'urijs'
 import {
   setFrom,
@@ -29,7 +30,8 @@ import {
   setDepartTimeStart,
   setDepartTimeEnd,
   setArriveTimeStart,
-  setArriveTimeEnd} from '../../store/modules/query/actions'
+  setArriveTimeEnd
+} from '../../store/modules/query/actions'
 import dayjs from 'dayjs'
 import { h0 } from '../../utils'
 
@@ -128,8 +130,8 @@ function QueryPage(props) {
     departDate,
     highSpeed,
     searchParsed,
-    // orderType,
-    // onlyTickets,
+    orderType,
+    onlyTickets
     // checkedTicketTypes,
     // checkedTrainTypes,
     // checkedDepartStations,
@@ -146,6 +148,23 @@ function QueryPage(props) {
 
   const {isPrevDisabled, isNextDisabled, prev, next} = useNav(departDate, dispatch, prevDate, nextDate)
 
+  const bottomCbs = useMemo(() => {
+    return bindActionCreators({
+      toggleOrderType,
+      toggleHighSpeed,
+      toggleOnlyTickets,
+      toggleIsFiltersVisible,
+      setCheckedTicketTypes,
+      setCheckedTrainTypes,
+      setCheckedDepartStations,
+      setCheckedArriveStations,
+      setDepartTimeStart,
+      setDepartTimeEnd,
+      setArriveTimeStart,
+      setArriveTimeEnd
+    }, dispatch)
+  }, [])
+
   if (!searchParsed) {
     return null
   }
@@ -154,10 +173,25 @@ function QueryPage(props) {
     <div className={"query-wrapper"}>
       <HeaderComponent title={`${from}->${to}`} onBack={onBack} />
       <NavComponent date={departDate} prev={prev} next={next} isNextDisabled={isNextDisabled} isPrevDisabled={isPrevDisabled}/>
-      <div style={{padding: '10px'}}>
-        <ListComponent list={trainList}/>
-        <BottomComponent />
-      </div>
+      <ListComponent list={trainList}/>
+      <BottomComponent
+        highSpeed={highSpeed}
+        orderType={orderType}
+        onlyTickets={onlyTickets}
+        isFiltersVisible={isFiltersVisible}
+        ticketTypes={ticketTypes}
+        trainTypes={trainTypes}
+        departStations={departStations}
+        arriveStations={arriveStations}
+        checkedTicketTypes={checkedTicketTypes}
+        checkedTrainTypes={checkedTrainTypes}
+        checkedDepartStations={checkedDepartStations}
+        checkedArriveStations={checkedArriveStations}
+        departTimeStart={departTimeStart}
+        departTimeEnd={departTimeEnd}
+        arriveTimeStart={arriveTimeStart}
+        arriveTimeEnd={arriveTimeEnd}
+        {...bottomCbs}/>
     </div>
   )
 }
