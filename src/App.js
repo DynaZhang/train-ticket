@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React from "react";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {Provider} from "react-redux";
 import './App.styl';
 import HomePage from './views/home';
-import HeaderComponent from "./components/Header";
 import store from "./store";
+import QueryPage from "./views/query";
 
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
         <div className={"container-wrapper"}>
           <Router>
             <Route exact path={'/'} component={HomePage} />
+            <Route exact path={'/query'} component={QueryPage} />
           </Router>
         </div>
       </div>

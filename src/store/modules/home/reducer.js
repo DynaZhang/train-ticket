@@ -8,6 +8,7 @@ import {
   ACTION_SET_IS_DATE_SELECTOR_VISIBLE,
   ACTION_SET_IS_LOADING_CITY_DATA, ACTION_SET_DEPART_DATE
 } from './actionTypes'
+import {h0} from "../../../utils";
 
 const defaultStore = {
   from: '北京',
@@ -17,7 +18,7 @@ const defaultStore = {
   cityData: null,
   isLoadingCityData: false,
   isDateSelectorVisible: false,
-  departDate: 0,
+  departDate: h0(),
   highSpeed: false
 }
 

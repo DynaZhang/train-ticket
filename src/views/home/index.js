@@ -1,17 +1,18 @@
-import React, {useCallback, useMemo} from 'react';
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
+import React, {useCallback, useMemo} from 'react'
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import URI from 'urijs'
 import './style.styl';
 import {
   exchangeFromTo,
-  hideCitySelector,
-  showCitySelector,
   fetchCityData,
-  setSelectedCity,
-  setDepartDate,
-  showDateSelector,
+  hideCitySelector,
   hideDateSelector,
-  setHighSpeed
+  setDepartDate,
+  setHighSpeed,
+  setSelectedCity,
+  showCitySelector,
+  showDateSelector
 } from '../../store/modules/home/actions';
 
 import DepartDateComponent from "./DepartDate";
@@ -22,6 +23,7 @@ import CitySelectorComponent from "../../components/CitySelector";
 import DateSelectorComponent from "../../components/DateSelector";
 import HeaderComponent from "../../components/Header";
 import {h0} from "../../utils";
+import dayjs from "dayjs";
 
 function HomePage(props) {
   const {from, to, isCitySelectorVisible, isDateSelectorVisible, cityData, isLoadingCityData, departDate, highSpeed, dispatch} = props
@@ -71,6 +73,15 @@ function HomePage(props) {
     }, dispatch)
   }, [])
 
+  const onSubmit = useCallback(() => {
+    window.location.href = new URI('/query')
+      .setSearch('from', from)
+      .setSearch('to', to)
+      .setSearch('date', dayjs(departDate).format('YYYY-MM-DD'))
+      .setSearch('highSpeed', highSpeed)
+      .toString()
+  }, [from, to, departDate, highSpeed])
+
   return (
     <div className={"home-wrapper"}>
       <HeaderComponent onBack={handleBack} title={"火车票"} />
@@ -78,7 +89,7 @@ function HomePage(props) {
         <JourneyComponent from={from} to={to} {...journeyCbs}/>
         <DepartDateComponent time={departDate} {...departDateCbs}/>
         <HighSpeedComponent highSpeed={highSpeed} {...highSpeedCbs}/>
-        <SubmitComponent />
+        <SubmitComponent onClick={onSubmit}/>
         <CitySelectorComponent show={isCitySelectorVisible} cityData={cityData} isLoading={isLoadingCityData} {...citySelectorCbs}/>
         <DateSelectorComponent show={isDateSelectorVisible} {...dateSelectorCbs} onSelect={onSelectDate}/>
       </div>

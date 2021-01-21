@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import './style.styl';
 import {h0} from "../../../utils";
-import HeaderComponent from "../../../components/Header";
 
 function DepartDateComponent(props) {
   const {time, onClick} = props
